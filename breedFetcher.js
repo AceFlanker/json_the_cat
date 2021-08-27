@@ -9,9 +9,9 @@ const noPrefixURL = function(url) {
   return url.match(schemePrefix)[0];
 }
 
-const breed = argv[0];
+const breed = argv.join(' ');
 
-const requestAddress = 'https://api.thectapi.com/v1/breeds/search';
+const requestAddress = 'https://api.thecatapi.com/v1/breeds/search';
 const connAddress = noPrefixURL(requestAddress);
 const PORT = 80;
 
@@ -54,11 +54,11 @@ const findBreed = function() {
   request(requestAddress + '?q=' + breed, (error, response, body) => {
     console.log('ERROR:', error);
     console.log('STATUS CODE:', response && response.statusCode);
-    if (body.length < 1) {
+    if (body !== '[]') {
       console.log('======================\nIncoming Body Received\n======================');
       console.log(breed + ': ' + JSON.parse(body)[0].description);
     } else {
-      console.log('==========================================\nRequested breed not found in the database.\n==========================================')
+      console.log('==========================================\nRequested breed not found in the database:\n' + breed + '\n==========================================')
     }
     endSession();
   })
